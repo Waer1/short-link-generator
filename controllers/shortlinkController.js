@@ -1,8 +1,9 @@
 const AppError = require("../utils/appError");
 const Shortlink = require("../models/shortlinkModel");
+const catchAsync = require("../utils/catchAsync");
 
 // Get all shortlinks
-exports.getAllShortlinks = async (req, res, next) => {
+exports.getAllShortlinks = catchAsync(async (req, res, next) => {
   const shortlinks = await Shortlink.find({});
   res.status(200).json({
     status: "success",
@@ -11,10 +12,10 @@ exports.getAllShortlinks = async (req, res, next) => {
       shortlinks,
     },
   });
-};
+});
 
 // Create a shortlink
-exports.createShortlink = async (req, res, next) => {
+exports.createShortlink = catchAsync(async (req, res, next) => {
   let { slug, ios, android, web } = req.body;
 
   // If slug is not provided, generate a random alphanumeric slug
@@ -42,10 +43,10 @@ exports.createShortlink = async (req, res, next) => {
     slug: newShortlink.slug,
     message: "Created successfully",
   });
-};
+});
 
 // Update a shortlink
-exports.updateShortlink = async (req, res) => {
+exports.updateShortlink = catchAsync(async (req, res) => {
   const { slug } = req.params;
   const updates = req.body;
   const updatedShortLink = await Shortlink.findOneAndUpdate({ slug }, updates, {
@@ -64,10 +65,10 @@ exports.updateShortlink = async (req, res) => {
       updatedShortLink,
     },
   });
-};
+});
 
 // replace the ShortLink
-exports.replaceShortlink = async (req, res) => {
+exports.replaceShortlink = catchAsync(async (req, res) => {
   const { slug } = req.params;
   const updates = req.body;
   updates.slug = slug;
@@ -94,4 +95,4 @@ exports.replaceShortlink = async (req, res) => {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
   }
-};
+});
