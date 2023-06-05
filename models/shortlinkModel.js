@@ -1,22 +1,44 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const shortlinkSchema = new mongoose.Schema({
   slug: {
     type: String,
-    required: true,
-    unique: true
+    required: false,
+    unique: true,
+    validate: {
+      validator: function (value) {
+        return /^[a-zA-Z0-9]+$/.test(value);
+      },
+      message: "Slug must be a case-sensitive alphanumeric string",
+      immutable: true, // Make the slug field read-only
+    },
   },
   ios: {
-    primary: String,
-    fallback: String
+    primary: {
+      type: String,
+      required: true,
+    },
+    fallback: {
+      type: String,
+      required: true,
+    },
   },
   android: {
-    primary: String,
-    fallback: String
+    primary: {
+      type: String,
+      required: true,
+    },
+    fallback: {
+      type: String,
+      required: true,
+    },
   },
-  web: String
+  web: {
+    type: String,
+    required: true,
+  },
 });
 
-const Shortlink = mongoose.model('Shortlink', shortlinkSchema);
+const Shortlink = mongoose.model("Shortlink", shortlinkSchema);
 
 module.exports = Shortlink;
