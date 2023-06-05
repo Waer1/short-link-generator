@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const basicAuthMiddleware = require("./middleware/basicAuthMiddleware");
 const AppError = require("./utils/appError");
 const shortlinkRoutes = require("./routes/shortlinkRoutes");
 
@@ -12,6 +13,9 @@ if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
 }
 app.use(helmet());
+
+// Basic Auth Middleware
+app.use(basicAuthMiddleware);
 
 // Routes
 app.use("/api/v1/shortlinks", shortlinkRoutes);
@@ -26,7 +30,7 @@ app.use((err, req, res, next) => {
 });
 
 app.all("*", (req, res, next) => {
-  next(new AppError(`cant find ${req.originalUrl} on this server!!!`, 404));
+  next(new AppError(`Can't find ${req.originalUrl} on this server!!!`, 404));
 });
 
 module.exports = app;
