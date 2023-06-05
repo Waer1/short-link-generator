@@ -11,11 +11,11 @@ const app = express();
 app.use(express.json());
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
+} else {
+  // Basic Auth Middleware
+  app.use(basicAuthMiddleware);
 }
 app.use(helmet());
-
-// Basic Auth Middleware
-app.use(basicAuthMiddleware);
 
 // Routes
 app.use("/api/v1/shortlinks", shortlinkRoutes);
