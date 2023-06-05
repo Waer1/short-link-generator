@@ -4,7 +4,15 @@ const catchAsync = require("../utils/catchAsync");
 
 // Get all shortlinks
 exports.getAllShortlinks = catchAsync(async (req, res, next) => {
-  const shortlinks = await Shortlink.find({});
+  // Builing Query
+  const query = new APIFeatures(Shortlink.find({}), req.query)
+    .filter()
+    .sort()
+    .limit()
+    .fields()
+    .paginate();
+
+  const shortlinks = await query.query;
   res.status(200).json({
     status: "success",
     results: shortlinks.length,
