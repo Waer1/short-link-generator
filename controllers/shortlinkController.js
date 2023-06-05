@@ -1,10 +1,16 @@
 const AppError = require("../utils/appError");
 const Shortlink = require("../models/shortlinkModel");
 const catchAsync = require("../utils/catchAsync");
+const APIFeatures = require("../utils/apiFeatures");
 
-// Get all shortlinks
+/**
+ * Get all shortlinks
+ * Retrieves all shortlinks based on the provided query parameters.
+ * @route GET /api/shortlinks
+ * @returns {Object} - JSON response with the shortlinks data.
+ */
 exports.getAllShortlinks = catchAsync(async (req, res, next) => {
-  // Builing Query
+  // Build the query based on the APIFeatures class
   const query = new APIFeatures(Shortlink.find({}), req.query)
     .filter()
     .sort()
@@ -22,7 +28,13 @@ exports.getAllShortlinks = catchAsync(async (req, res, next) => {
   });
 });
 
-// Create a shortlink
+/**
+ * Create a shortlink
+ * Creates a new shortlink with the provided slug, iOS, Android, and web targets.
+ * If slug is not provided, a random alphanumeric slug will be generated.
+ * @route POST /api/shortlinks
+ * @returns {Object} - JSON response with the created shortlink data.
+ */
 exports.createShortlink = catchAsync(async (req, res, next) => {
   let { slug, ios, android, web } = req.body;
 
@@ -53,10 +65,17 @@ exports.createShortlink = catchAsync(async (req, res, next) => {
   });
 });
 
-// Update a shortlink
+/**
+ * Update a shortlink
+ * Updates an existing shortlink with the provided slug and updates.
+ * @route PUT /api/shortlinks/:slug
+ * @returns {Object} - JSON response with the updated shortlink data.
+ */
 exports.updateShortlink = catchAsync(async (req, res) => {
   const { slug } = req.params;
   const updates = req.body;
+
+  // Find and update the shortlink
   const updatedShortLink = await Shortlink.findOneAndUpdate({ slug }, updates, {
     new: true,
     runValidators: true,
@@ -75,7 +94,12 @@ exports.updateShortlink = catchAsync(async (req, res) => {
   });
 });
 
-// replace the ShortLink
+/**
+ * Replace the ShortLink
+ * Replaces an existing shortlink with the provided slug and updates.
+ * @route PUT /api/shortlinks/:slug/replace
+ * @returns {Object} - JSON response with the replaced shortlink data.
+ */
 exports.replaceShortlink = catchAsync(async (req, res) => {
   const { slug } = req.params;
   const updates = req.body;

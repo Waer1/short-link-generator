@@ -8,8 +8,22 @@ const {
 
 const router = express.Router();
 
-router.route("/").get(getAllShortlinks).post(createShortlink);
+// Route: /api/shortlinks
 
-router.route("/:slug").patch(updateShortlink).put(replaceShortlink);
+/**
+ * Route to get all shortlinks or create a new shortlink.
+ */
+router
+  .route("/")
+  .get(getAllShortlinks) // GET request to retrieve all shortlinks
+  .post(createShortlink); // POST request to create a new shortlink
+
+/**
+ * Route to update or replace a specific shortlink.
+ */
+router
+  .route("/:slug")
+  .patch(updateShortlink) // PATCH request to update a shortlink
+  .put(replaceShortlink); // PUT request to replace a shortlink
 
 module.exports = router;

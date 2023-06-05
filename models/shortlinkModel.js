@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+/**
+ * Shortlink Schema
+ */
 const shortlinkSchema = new mongoose.Schema({
   slug: {
     type: String,
@@ -39,6 +42,9 @@ const shortlinkSchema = new mongoose.Schema({
   },
 });
 
+/**
+ * Shortlink Model
+ */
 const Shortlink = mongoose.model("Shortlink", shortlinkSchema);
 
 module.exports = Shortlink;
