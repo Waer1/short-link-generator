@@ -37,7 +37,7 @@ const dummyData = [
 ];
 
 function App() {
-  dummyData.push(...dummyData)
+  dummyData.push(...dummyData);
   const [links, setLinks] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -86,7 +86,7 @@ function App() {
 
   return (
     <SnackbarProvider maxSnack={5}>
-      <FullPageBackground svgLocation="logo.svg">
+      <FullPageBackground svgLocation='logo.svg'>
         <Box
           sx={{
             display: "flex",
@@ -119,10 +119,11 @@ function App() {
               width: "25%",
               padding: "2rem",
               backgroundColor: "#fafafa",
-              borderRadius: "1rem",
+              borderTopRightRadius: "1rem",
+              borderBottomRightRadius: "1rem",
             }}
           >
-            <AddLinkForm addLink={addLink} svgLocation="logo.svg" />
+            <AddLinkForm addLink={addLink} svgLocation='logo.svg' />
           </Paper>
         </Box>
       </FullPageBackground>
