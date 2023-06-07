@@ -1,0 +1,51 @@
+version: "3"
+services:
+
+  web_server:
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - general
+    restart: always
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../certbot/www/:/var/www/certbot/:ro
+      - ../certbot/conf/:/etc/nginx/ssl/:ro
+
+  # certbot:
+  #   image: certbot/certbot:latest
+  #   volumes:
+  #     - ../certbot/conf/:/etc/letsencrypt/
+  #     - ../certbot/www/:/var/www/certbot/
+  #   command: certonly --webroot -w /var/www/certbot --force-renewal --email elwaeryousef1@gmail.com -d www.read-it.live --agree-tos
+
+  backend:
+    restart: unless-stopped
+    build: ../../backend/Dockerfile
+    env_file: ./envfiles/backend.env
+    networks:
+      - frontend_net
+      - private
+      - flutter_net
+      - Readit
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+
+  frontend:
+    build: ../../frontend/Dockerfile
+    networks:
+      - general
+    depends_on:
+      - backend
+    restart: always
+    
+networks:
+  private:
+  general:
