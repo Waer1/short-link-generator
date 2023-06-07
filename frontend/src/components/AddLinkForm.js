@@ -10,6 +10,7 @@ function AddLinkForm({ addLink, svgLocation }) {
   const [web, setWeb] = useState("");
 
   const { enqueueSnackbar } = useSnackbar();
+  
 
   const generateRandomSlug = () => {
     const randomChars =

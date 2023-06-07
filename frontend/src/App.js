@@ -3,7 +3,8 @@ import axios from "axios";
 import BASE_URL from "./apiUtils";
 import LinkList from "./components/LinkList";
 import AddLinkForm from "./components/AddLinkForm";
-import { SnackbarProvider, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
+
 import FullPageBackground from "./components/FullPageBackground";
 import { Box, Paper } from "@mui/material";
 
@@ -26,7 +27,7 @@ function App() {
       enqueueSnackbar("Links fetched successfully", { variant: "success" });
     } catch (error) {
       console.error("Error:", error);
-      enqueueSnackbar("Error fetching links", { variant: "error" });
+      enqueueSnackbar(error.response.data.message, { variant: "error" });
     }
   };
 
@@ -39,7 +40,7 @@ function App() {
       })
       .catch((error) => {
         console.error("Error:", error);
-        enqueueSnackbar("Error adding link", { variant: "error" });
+        enqueueSnackbar(error.response.data.message, { variant: "error" });
       });
   };
 
@@ -52,12 +53,11 @@ function App() {
       })
       .catch((error) => {
         console.error("Error:", error);
-        enqueueSnackbar("Error deleting link", { variant: "error" });
+        enqueueSnackbar(error.response.data.message, { variant: "error" });
       });
   };
 
   const editLink = async (updatedFields, linkSlug) => {
-    console.log(updatedFields, linkSlug);
     await axios
       .patch(`${BASE_URL + API_URL}/${linkSlug}`, updatedFields)
       .then((response) => {
@@ -65,55 +65,49 @@ function App() {
         fetchLinks();
       })
       .catch((error) => {
-        console.error("Error:", error);
-        enqueueSnackbar("Error updating link", { variant: "error" });
+        console.error("Error:", error.response.data.message);
+        enqueueSnackbar(error.response.data.message, { variant: "error" });
       });
   };
 
   return (
-    <SnackbarProvider maxSnack={5}>
-      <FullPageBackground svgLocation='logo.svg'>
-        <Box
+    <FullPageBackground svgLocation='logo.svg'>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          height: "70vh",
+          gap: "2rem",
+          width: "100%",
+        }}
+      >
+        <Paper
+          elevation={3}
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            height: "70vh",
-            gap: "2rem",
-            width: "100%",
+            width: "50%",
+            padding: "2rem",
+            backgroundColor: "#fafafa",
+            borderRadius: "1rem",
+            overflowY: "scroll",
           }}
         >
-          <Paper
-            elevation={3}
-            sx={{
-              width: "50%",
-              padding: "2rem",
-              backgroundColor: "#fafafa",
-              borderRadius: "1rem",
-              overflowY: "scroll",
-            }}
-          >
-            <LinkList
-              links={links}
-              deleteLink={deleteLink}
-              editLink={editLink}
-            />
-          </Paper>
+          <LinkList links={links} deleteLink={deleteLink} editLink={editLink} />
+        </Paper>
 
-          <Paper
-            elevation={3}
-            sx={{
-              width: "25%",
-              padding: "2rem",
-              backgroundColor: "#fafafa",
-              borderTopRightRadius: "1rem",
-              borderBottomRightRadius: "1rem",
-            }}
-          >
-            <AddLinkForm addLink={addLink} svgLocation='logo.svg' />
-          </Paper>
-        </Box>
-      </FullPageBackground>
-    </SnackbarProvider>
+        <Paper
+          elevation={3}
+          sx={{
+            width: "25%",
+            padding: "2rem",
+            backgroundColor: "#fafafa",
+            borderTopRightRadius: "1rem",
+            borderBottomRightRadius: "1rem",
+          }}
+        >
+          <AddLinkForm addLink={addLink} svgLocation='logo.svg' />
+        </Paper>
+      </Box>
+    </FullPageBackground>
   );
 }
 
