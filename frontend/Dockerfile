@@ -7,7 +7,7 @@ WORKDIR /react-ui
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm i --legacy-peer-deps
 
 # Copy the rest of the files
 COPY . .
