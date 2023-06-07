@@ -1,6 +1,7 @@
 # MERN Stack Application Documentation
 
 This repository contains a MERN (MongoDB, Express, React, Node.js) stack application.
+also it's deployed on AWS (Amazon Web Services) using Docker-Compose. using nginx as webserver and ansible for automation.
 
 ## Technologies and Tools Used
 
