@@ -1,0 +1,508 @@
+{
+	"info": {
+		"_postman_id": "8fa36be6-d98d-4a21-931f-067167f621a2",
+		"name": "AppGainTask",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23107636"
+	},
+	"item": [
+		{
+			"name": "SuccessTests",
+			"item": [
+				{
+					"name": "getAllshortlinks",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addShortLink",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"slug\": \"fXj4uW\",\r\n  \"ios\": {\r\n    \"primary\": \"ios_primary_link\",\r\n    \"fallback\": \"ios_fallback_link\"\r\n  },\r\n  \"android\": {\r\n    \"primary\": \"android_primary_link\",\r\n    \"fallback\": \"android_fallback_link\"\r\n  },\r\n  \"web\": \"web_linkheelo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patchShortLink",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"web\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks/fXj4uW",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks",
+								"fXj4uW"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteShortLink",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"web\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks/8vl6TzTabT4go3Ob",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks",
+								"8vl6TzTabT4go3Ob"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "putShortLink",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ios\": {\r\n    \"primary\": \"ios_primary_link\",\r\n    \"fallback\": \"ios_fallback_link\"\r\n  },\r\n  \"android\": {\r\n    \"primary\": \"android_primary_link\",\r\n    \"fallback\": \"android_fallback_link\"\r\n  },\r\n  \"web\": \"web_linkwarer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks/doFtCo",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks",
+								"doFtCo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FailurTests",
+			"item": [
+				{
+					"name": "Create a shortlink with an invalid slug",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"slug\": \"invalid-slug!\",\r\n  \"ios\": {\r\n    \"primary\": \"ios_primary_url\",\r\n    \"fallback\": \"ios_fallback_url\"\r\n  },\r\n  \"android\": {\r\n    \"primary\": \"android_primary_url\",\r\n    \"fallback\": \"android_fallback_url\"\r\n  },\r\n  \"web\": \"web_url\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a shortlink with missing required fields",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ios\": {\r\n    \"primary\": \"ios_primary_url\",\r\n    \"fallback\": \"ios_fallback_url\"\r\n  },\r\n  \"android\": {\r\n    \"primary\": \"android_primary_url\",\r\n    \"fallback\": \"android_fallback_url\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a shortlink with an new slug",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"slug\":\"sdkjskdjksj\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks/su0qPK3TupI",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks",
+								"su0qPK3TupI"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a shortlink with an invalid iOS primary URL",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ios\": {\r\n    \"primary\": \"invalid_ios_primary_url!\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks/fXj4uW",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks",
+								"fXj4uW"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Replace a shortlink with an existing slug",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"slug\": \"8vl6TzTabT4go3Ob\",\r\n  \"ios\": {\r\n    \"primary\": \"ios_primary_url\",\r\n    \"fallback\": \"ios_fallback_url\"\r\n  },\r\n  \"android\": {\r\n    \"primary\": \"android_primary_url\",\r\n    \"fallback\": \"android_fallback_url\"\r\n  },\r\n  \"web\": \"web_url\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks/c28ySur1lir65hr",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks",
+								"c28ySur1lir65hr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a non-existing shortlink:",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"web\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks/fXj4uW",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks",
+								"fXj4uW"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "localhost",
+			"value": "127.0.0.1"
+		}
+	]
+}
