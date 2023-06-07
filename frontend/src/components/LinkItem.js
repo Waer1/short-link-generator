@@ -18,27 +18,67 @@ import {
 
 function LinkItem({ link, deleteLink, editLink }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [isOpened, setIisOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState(false);
   const [editedLink, setEditedLink] = useState(link);
 
   const handleDelete = () => {
     deleteLink(link.slug);
   };
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
     if (isEditing) {
-      // Save the edited link
-      editLink(editedLink);
+      const updatedFields = {};
+
+      // Check if each field has changed and add it to the updatedFields object
+      if (editedLink.ios.primary !== link.ios.primary) {
+        updatedFields.ios = { ...link.ios, primary: editedLink.ios.primary };
+      }
+      if (editedLink.ios.fallback !== link.ios.fallback) {
+        updatedFields.ios = { ...link.ios, fallback: editedLink.ios.fallback };
+      }
+      if (editedLink.android.primary !== link.android.primary) {
+        updatedFields.android = {
+          ...link.android,
+          primary: editedLink.android.primary,
+        };
+      }
+      if (editedLink.android.fallback !== link.android.fallback) {
+        updatedFields.android = {
+          ...link.android,
+          fallback: editedLink.android.fallback,
+        };
+      }
+      if (editedLink.web !== link.web) {
+        updatedFields.web = editedLink.web;
+      }
+
+      // Only call the API if there are updated fields
+      if (Object.keys(updatedFields).length > 0) {
+        await editLink(updatedFields, link.slug); // Pass link.slug as an argument
+      }
     }
     setIsEditing(!isEditing);
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setEditedLink((prevLink) => ({
-      ...prevLink,
-      [name]: value,
-    }));
+    console.log(editedLink, name, value);
+
+    if (name.includes(".")) {
+      const [beforeDot, afterDot] = name.split(".");
+      setEditedLink((prevLink) => ({
+        ...prevLink,
+        [beforeDot]: {
+          ...prevLink[beforeDot],
+          [afterDot]: value,
+        },
+      }));
+    } else {
+      setEditedLink((prevLink) =>   ({
+        ...prevLink,
+        [name]: value,
+      }));
+    }
   };
 
   return (
@@ -57,18 +97,18 @@ function LinkItem({ link, deleteLink, editLink }) {
           paddingLeft: "16px", // Add left padding
           cursor: "pointer",
         }}
-        onClick={() => setIisOpened(!isOpened)}
+        onClick={() => setIsOpened(!isOpened)}
       >
         <Typography
           variant='h5'
           sx={{ flexGrow: 1, color: "rgba(28,87,153,1)" }}
         >
-          {editedLink.slug}
+          Slug: {editedLink.slug}
         </Typography>
         <IconButton
           size='large'
           sx={{ color: "rgba(28,87,153,1)" }}
-          onClick={() => setIisOpened(!isOpened)}
+          onClick={() => setIsOpened(!isOpened)}
         >
           {isOpened ? <ExpandLess /> : <ExpandMore />}
         </IconButton>
@@ -104,7 +144,7 @@ function LinkItem({ link, deleteLink, editLink }) {
               </Grid>
               <Grid item xs={3}>
                 <TextField
-                  name='iosPrimary'
+                  name='ios.primary'
                   label='iOS Primary'
                   value={editedLink.ios.primary}
                   onChange={handleChange}
@@ -115,7 +155,7 @@ function LinkItem({ link, deleteLink, editLink }) {
               </Grid>
               <Grid item xs={3}>
                 <TextField
-                  name='iosFallback'
+                  name='ios.fallback'
                   label='iOS Fallback'
                   value={editedLink.ios.fallback}
                   onChange={handleChange}
@@ -153,7 +193,7 @@ function LinkItem({ link, deleteLink, editLink }) {
             <Grid container spacing={3}>
               <Grid item xs={3}>
                 <TextField
-                  name='androidPrimary'
+                  name='android.primary'
                   label='Android Primary'
                   value={editedLink.android.primary}
                   onChange={handleChange}
@@ -164,7 +204,7 @@ function LinkItem({ link, deleteLink, editLink }) {
               </Grid>
               <Grid item xs={3}>
                 <TextField
-                  name='androidFallback'
+                  name='android.fallback'
                   label='Android Fallback'
                   value={editedLink.android.fallback}
                   onChange={handleChange}

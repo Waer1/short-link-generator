@@ -5,39 +5,11 @@ import LinkList from "./components/LinkList";
 import AddLinkForm from "./components/AddLinkForm";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import FullPageBackground from "./components/FullPageBackground";
-import { Box, Paper, Container } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 
-const dummyData = [
-  {
-    id: 1,
-    slug: "example-1",
-    ios: {
-      primary: "https://www.example.com/ios1",
-      fallback: "https://www.example.com/fallback1",
-    },
-    android: {
-      primary: "https://www.example.com/android1",
-      fallback: "https://www.example.com/fallback1",
-    },
-    web: "https://www.example.com/web1",
-  },
-  {
-    id: 2,
-    slug: "example-2",
-    ios: {
-      primary: "https://www.example.com/ios2",
-      fallback: "https://www.example.com/fallback2",
-    },
-    android: {
-      primary: "https://www.example.com/android2",
-      fallback: "https://www.example.com/fallback2",
-    },
-    web: "https://www.example.com/web2",
-  },
-];
+const API_URL = "/shortlinks";
 
 function App() {
-  dummyData.push(...dummyData);
   const [links, setLinks] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -46,42 +18,56 @@ function App() {
   }, []);
 
   const fetchLinks = async () => {
-    // Sample data for testing
-    setLinks(dummyData);
-    enqueueSnackbar("Links fetched successfully", { variant: "success" });
+    try {
+      const response = await axios.get(BASE_URL + API_URL);
+      const { data } = response.data;
+      setLinks(data.shortlinks);
+      console.log(data.shortlinks);
+      enqueueSnackbar("Links fetched successfully", { variant: "success" });
+    } catch (error) {
+      console.error("Error:", error);
+      enqueueSnackbar("Error fetching links", { variant: "error" });
+    }
   };
 
   const addLink = async (newLink) => {
-    try {
-      // Add your API logic here
-      enqueueSnackbar("Link added successfully", { variant: "success" });
-      fetchLinks(); // Fetch links after adding a new link
-    } catch (error) {
-      console.error("Error:", error);
-      enqueueSnackbar("Error adding link", { variant: "error" });
-    }
+    await axios
+      .post(BASE_URL + API_URL, newLink)
+      .then((response) => {
+        enqueueSnackbar("Link added successfully", { variant: "success" });
+        fetchLinks();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        enqueueSnackbar("Error adding link", { variant: "error" });
+      });
   };
 
   const deleteLink = async (slug) => {
-    try {
-      // Add your API logic here
-      enqueueSnackbar("Link deleted successfully", { variant: "success" });
-      fetchLinks(); // Fetch links after deleting a link
-    } catch (error) {
-      console.error("Error:", error);
-      enqueueSnackbar("Error deleting link", { variant: "error" });
-    }
+    await axios
+      .delete(`${BASE_URL + API_URL}/${slug}`)
+      .then((response) => {
+        enqueueSnackbar("Link deleted successfully", { variant: "success" });
+        fetchLinks();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        enqueueSnackbar("Error deleting link", { variant: "error" });
+      });
   };
 
-  const editLink = async (updatedLink) => {
-    try {
-      // Add your API logic here
-      enqueueSnackbar("Link updated successfully", { variant: "success" });
-      fetchLinks(); // Fetch links after updating a link
-    } catch (error) {
-      console.error("Error:", error);
-      enqueueSnackbar("Error updating link", { variant: "error" });
-    }
+  const editLink = async (updatedFields, linkSlug) => {
+    console.log(updatedFields, linkSlug);
+    await axios
+      .patch(`${BASE_URL + API_URL}/${linkSlug}`, updatedFields)
+      .then((response) => {
+        enqueueSnackbar("Link updated successfully", { variant: "success" });
+        fetchLinks();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        enqueueSnackbar("Error updating link", { variant: "error" });
+      });
   };
 
   return (
