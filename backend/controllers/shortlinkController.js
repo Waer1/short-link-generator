@@ -105,26 +105,36 @@ exports.replaceShortlink = catchAsync(async (req, res) => {
   const updates = req.body;
   updates.slug = slug;
 
-  try {
-    const updatedShortlink = await Shortlink.findOneAndReplace(
-      { slug },
-      updates,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-
-    if (!updatedShortlink) {
-      return res.status(404).json({ message: "Shortlink not found" });
+  const updatedShortlink = await Shortlink.findOneAndReplace(
+    { slug },
+    updates,
+    {
+      new: true,
+      runValidators: true,
     }
+  );
 
-    res.status(200).json({
-      message: "Shortlink updated successfully",
-      shortlink: updatedShortlink,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Internal server error" });
+  if (!updatedShortlink) {
+    return res.status(404).json({ message: "Shortlink not found" });
   }
+
+  res.status(200).json({
+    message: "Shortlink updated successfully",
+    shortlink: updatedShortlink,
+  });
+});
+
+exports.deleteShortlink = catchAsync(async (req, res) => {
+  const { slug } = req.params;
+
+  const deletedShortlink = await Shortlink.findOneAndDelete({ slug });
+
+  if (!deletedShortlink) {
+    return res.status(404).json({ message: "Shortlink not found" });
+  }
+
+  res.status(204).json({
+    message: "Shortlink deleted successfully",
+    shortlink: deletedShortlink,
+  });
 });

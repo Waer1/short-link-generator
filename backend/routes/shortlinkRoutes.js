@@ -24,6 +24,7 @@ router
 router
   .route("/:slug")
   .patch(updateShortlink) // PATCH request to update a shortlink
-  .put(replaceShortlink); // PUT request to replace a shortlink
+  .put(replaceShortlink) // PUT request to replace a shortlink
+  .delete()
 
 module.exports = router;
