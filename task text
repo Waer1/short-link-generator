@@ -1,0 +1,661 @@
+
+Back to top
+SmartShorter
+
+    Smart Link Shortener REST API
+
+This a Test Task to Assess Your Coding and learning Skills.
+Overview ¶
+
+the task is to implement a simple api for smart link shortener service, a link shortener service like bit.ly, goo.gl and many others. with different redirection ‘destination’ URL/Link based on the users platform for example if the short link if a short link is opened for desktop web browser it will redirect to one location but if open for mobile Android for have a different location.
+
+Imagine a App with download link when open from iOS it opens the page for the iOS app if from Android it opens the Android app download page, …etc
+Task ¶
+
+Implement a RESTful API for the shortlinks as documented below, not HTML or web design only JSON requests and responds. With no user authentication the API will be single user/open for all to read/write any link. Implementing user authentication is a bonus (basicAuth or OAuth2)
+Requirement ¶
+
+    Use MEAN Stack
+
+    Use git
+        git commit log is required write good commit log
+        the task should be posted to Gitlab/Github and send the link
+
+    Implement the API as documented below
+
+    MVC, separate logic form representation,
+
+Bonuses ¶
+
+    unittest
+
+    one page screen for smart links generation
+
+Data Schema ¶
+Short Link Schema ¶
+
+slug: "s5G1f3"
+ios:
+  primary: "http://..."
+  fallback: "http://..."
+android:
+  primary: "http://..."
+  fallback: "http://..."
+web: "http://..."
+
+shortlink API ¶
+Shortlinks  ¶
+List All Shortlinks
+GET/shortlinks
+
+Return List of All User’s Short Links return empty list if have no link
+Example URI
+GET 127.0.0.1:5000/shortlinks
+Request  "List Shortlinks"
+Show
+Headers
+
+Content-Type: application/json
+
+Response  200
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "shortlinks": [
+    {
+      "slug": "s5G1f3",
+      "ios": {
+        "primary": "http://...",
+        "fallback": "http://..."
+      },
+      "android": {
+        "primary": "http://...",
+        "fallback": "http://..."
+      },
+      "web": "http://..."
+    },
+    {
+      "slug": "s5G1f3",
+      "ios": {
+        "primary": "http://...",
+        "fallback": "http://..."
+      },
+      "android": {
+        "primary": "http://...",
+        "fallback": "http://..."
+      },
+      "web": "http://..."
+    },
+    {
+      "slug": "s5G1f3",
+      "ios": {
+        "primary": "http://...",
+        "fallback": "http://..."
+      },
+      "android": {
+        "primary": "http://...",
+        "fallback": "http://..."
+      },
+      "web": "http://..."
+    }
+  ]
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "shortlinks": {
+      "type": "array"
+    }
+  },
+  "required": [
+    "shortlinks"
+  ]
+}
+
+Response  404
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "status": "failed",
+  "message": "not found"
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}
+
+Response  401
+Show
+
+NOT REQUIRED if implementing multiple user with user auth only
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "status": "failed",
+  "message": "auth failed, failed to login user"
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}
+
+Response  500
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {}
+}
+
+Request  "Case Non-JSON Content-Type"
+Show
+Headers
+
+Content-Type: text/html
+
+Response  400
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "status": "failed",
+  "message": "Bad Request"
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}
+
+Create Shortlink
+POST/shortlinks
+
+Create New shortlink,
+
+the JSON requrest below require all targts(ios,android,web) to be sent to create a new shortlink while slug is optional it will be genrated if not sent with the requrest this to allow for roundome alphanumiric shortlink and custome shortlink if slug was sent.
+NOTE ¶
+
+for the backend
+
+    the slug should be unique provided or auto generated
+
+    the slug is an case-sensitive alphanumeric
+
+Example URI
+POST 127.0.0.1:5000/shortlinks
+Request  "Create Shortlink"
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "slug": "s5G1f3",
+  "ios": {
+    "primary": "http://...",
+    "fallback": "http://..."
+  },
+  "android": {
+    "primary": "http://...",
+    "fallback": "http://..."
+  },
+  "web": "http://..."
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "description": "shortlink code"
+    },
+    "ios": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string"
+        },
+        "fallback": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "primary",
+        "fallback"
+      ],
+      "description": "iPhone URLs"
+    },
+    "android": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string"
+        },
+        "fallback": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "primary",
+        "fallback"
+      ],
+      "description": "Android URLs"
+    },
+    "web": {
+      "type": "string",
+      "description": "Other platforms"
+    }
+  },
+  "required": [
+    "ios",
+    "android",
+    "web"
+  ]
+}
+
+Response  201
+Show
+NOTE ¶
+
+return generated slug
+Body
+
+{
+  "status": "successful",
+  "slug": "s5G1f3",
+  "message": "created successfully"
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}
+
+Response  404
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "status": "failed",
+  "message": "not found"
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}
+
+Response  401
+Show
+
+NOT REQUIRED if implementing multiple user with user auth only
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "status": "failed",
+  "message": "auth failed, failed to login user"
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}
+
+Response  500
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {}
+}
+
+Request  "Case Non-JSON Content-Type"
+Show
+Headers
+
+Content-Type: text/html
+
+Response  400
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "status": "failed",
+  "message": "Bad Request"
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}
+
+shortlink  ¶
+Update Link Data
+PUT/shortlinks/{slug}
+NOTE ¶
+
+the slug is readonly once it’s been created, this means it can’t be update.
+
+Only sent attr will be updated, other will stay as is
+Example URI
+PUT 127.0.0.1:5000/shortlinks/s5G1f3
+URI Parameters
+Hide
+
+slug
+    string (required) Example: s5G1f3
+
+    alphanumeric Shortlink code
+
+Request  "ex: update iOS fallback only"
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "ios": {
+    "fallback": "http://..."
+  }
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "ios": {
+      "type": "object",
+      "properties": {
+        "fallback": {
+          "type": "string"
+        }
+      },
+      "description": "iPhone URLs"
+    }
+  }
+}
+
+Request  "ex: update web only"
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "web": "http://..."
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "web": {
+      "type": "string",
+      "description": "Other platforms"
+    }
+  }
+}
+
+Response  201
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "status": "successful",
+  "message": "updated successfully"
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}
+
+Response  404
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "status": "failed",
+  "message": "not found"
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}
+
+Response  401
+Show
+
+NOT REQUIRED if implementing multiple user with user auth only
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "status": "failed",
+  "message": "auth failed, failed to login user"
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}
+
+Request  "Case Non-JSON Content-Type"
+Show
+Headers
+
+Content-Type: text/html
+
+Response  400
+Show
+Headers
+
+Content-Type: application/json
+
+Body
+
+{
+  "status": "failed",
+  "message": "Bad Request"
+}
+
+Schema
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}
+
+Generated by aglio on 07 Aug 2016
