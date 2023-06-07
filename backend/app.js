@@ -1,23 +1,39 @@
 const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean");
+const cors = require("cors"); // Import the cors package
 const basicAuthMiddleware = require("./middleware/basicAuthMiddleware");
 const AppError = require("./utils/appError");
 const shortlinkRoutes = require("./routes/shortlinkRoutes");
-const cors = require("cors"); // Import the cors package
 
 const app = express();
 
 // Middleware
-app.use(express.json());
+
+// Body parser, reading data from the request body into req.body
+app.use(express.json({ limit: "50kb" }));
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
 } else {
   // Basic Auth Middleware
   app.use(basicAuthMiddleware);
 }
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: false,
+  })
+); // use security middleware for reciveing requests
 app.use(cors()); // Add the cors middleware
+
+// Data sanitization against NoSQL query injection
+app.use(mongoSanitize());
+
+// Data sanitization against XSS (Cross-Site Scripting) attacks
+app.use(xss()); // Prevent execution of dangerous HTML and JavaScript code in the request
 
 // Routes
 app.use("/api/v1/shortlinks", shortlinkRoutes);
