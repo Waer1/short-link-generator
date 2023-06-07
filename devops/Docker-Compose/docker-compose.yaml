@@ -26,20 +26,13 @@ services:
 
   backend:
     restart: unless-stopped
-    build: ../../backend/Dockerfile
+    build: ./../../backend/
     env_file: ./envfiles/backend.env
     networks:
-      - frontend_net
-      - private
-      - flutter_net
-      - Readit
-    depends_on:
-      - mongodb
-    links:
-      - mongodb
+      - general
 
   frontend:
-    build: ../../frontend/Dockerfile
+    build: ../../frontend/
     networks:
       - general
     depends_on:
@@ -47,5 +40,4 @@ services:
     restart: always
     
 networks:
-  private:
   general:
