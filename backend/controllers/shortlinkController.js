@@ -68,12 +68,20 @@ exports.createShortlink = catchAsync(async (req, res, next) => {
 /**
  * Update a shortlink
  * Updates an existing shortlink with the provided slug and updates.
- * @route Patch /api/shortlinks/:slug
+ * @route PATCH /api/shortlinks/:slug
  * @returns {Object} - JSON response with the updated shortlink data.
  */
-exports.updateShortlink = catchAsync(async (req, res) => {
+exports.updateShortlink = catchAsync(async (req, res, next) => {
   const { slug } = req.params;
   const updates = req.body;
+
+  // Check if the slug field is being updated
+  if (updates.slug && updates.slug !== slug) {
+    return next(new AppError("Slug field cannot be modified", 400));
+  }
+
+  // Remove the slug field from the updates
+  delete updates.slug;
 
   // Find and update the shortlink
   const updatedShortLink = await Shortlink.findOneAndUpdate({ slug }, updates, {
@@ -100,9 +108,15 @@ exports.updateShortlink = catchAsync(async (req, res) => {
  * @route PUT /api/shortlinks/:slug
  * @returns {Object} - JSON response with the replaced shortlink data.
  */
-exports.replaceShortlink = catchAsync(async (req, res) => {
+exports.replaceShortlink = catchAsync(async (req, res, next) => {
   const { slug } = req.params;
   const updates = req.body;
+
+  // Check if the slug field is being updated
+  if (updates.slug && updates.slug !== slug) {
+    return next(new AppError("Slug field cannot be modified", 400));
+  }
+
   updates.slug = slug;
 
   const updatedShortlink = await Shortlink.findOneAndReplace(
