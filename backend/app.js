@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const basicAuthMiddleware = require("./middleware/basicAuthMiddleware");
 const AppError = require("./utils/appError");
 const shortlinkRoutes = require("./routes/shortlinkRoutes");
+const cors = require("cors"); // Import the cors package
 
 const app = express();
 
@@ -16,6 +17,7 @@ if (process.env.NODE_ENV !== "production") {
   app.use(basicAuthMiddleware);
 }
 app.use(helmet());
+app.use(cors()); // Add the cors middleware
 
 // Routes
 app.use("/api/v1/shortlinks", shortlinkRoutes);
