@@ -10,7 +10,6 @@ function AddLinkForm({ addLink, svgLocation }) {
   const [web, setWeb] = useState("");
 
   const { enqueueSnackbar } = useSnackbar();
-  
 
   const generateRandomSlug = () => {
     const randomChars =
@@ -23,6 +22,16 @@ function AddLinkForm({ addLink, svgLocation }) {
       );
     }
     return randomSlug;
+  };
+
+  const handleGenerateRandomValues = () => {
+    setSlug(generateRandomSlug());
+    setIos({ primary: generateRandomSlug(), fallback: generateRandomSlug() });
+    setAndroid({
+      primary: generateRandomSlug(),
+      fallback: generateRandomSlug(),
+    });
+    setWeb(generateRandomSlug());
   };
 
   const handleSubmit = (e) => {
@@ -165,10 +174,34 @@ function AddLinkForm({ addLink, svgLocation }) {
         </Grid>
       </Grid>
 
-      <Box mt={0} textAlign='start'>
-        <Button type='submit' variant='contained' color='primary' size='large'>
-          Add
-        </Button>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "0 -8px",
+        }}
+      >
+        <Box sx={{ marginX: "8px" }}>
+          <Button
+            variant='contained'
+            color='secondary'
+            size='large'
+            onClick={handleGenerateRandomValues}
+          >
+            Random Values
+          </Button>
+        </Box>
+
+        <Box sx={{ marginX: "8px" }}>
+          <Button
+            type='submit'
+            variant='contained'
+            color='primary'
+            size='large'
+          >
+            Add
+          </Button>
+        </Box>
       </Box>
     </Grid>
   );
