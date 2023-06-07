@@ -68,7 +68,7 @@ exports.createShortlink = catchAsync(async (req, res, next) => {
 /**
  * Update a shortlink
  * Updates an existing shortlink with the provided slug and updates.
- * @route PUT /api/shortlinks/:slug
+ * @route Patch /api/shortlinks/:slug
  * @returns {Object} - JSON response with the updated shortlink data.
  */
 exports.updateShortlink = catchAsync(async (req, res) => {
@@ -97,7 +97,7 @@ exports.updateShortlink = catchAsync(async (req, res) => {
 /**
  * Replace the ShortLink
  * Replaces an existing shortlink with the provided slug and updates.
- * @route PUT /api/shortlinks/:slug/replace
+ * @route PUT /api/shortlinks/:slug
  * @returns {Object} - JSON response with the replaced shortlink data.
  */
 exports.replaceShortlink = catchAsync(async (req, res) => {
@@ -124,6 +124,12 @@ exports.replaceShortlink = catchAsync(async (req, res) => {
   });
 });
 
+/**
+ * delete the ShortLink
+ * delete an existing shortlink with the provided slug and updates.
+ * @route DELETE /api/shortlinks/:slug
+ * @returns {Object} - JSON response with the Deleted shortlink data.
+ */
 exports.deleteShortlink = catchAsync(async (req, res) => {
   const { slug } = req.params;
 
