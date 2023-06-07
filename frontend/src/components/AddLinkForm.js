@@ -73,37 +73,40 @@ function AddLinkForm({ addLink, svgLocation }) {
       container
       xs={12}
       md={12}
-      justifyContent="center"
-      alignItems="center"
+      justifyContent='center'
+      alignItems='center'
       spacing={2}
       style={{ height: "100%" }}
     >
-      <Grid item xs={12} justifyContent="center" textAlign="center">
+      <Grid item xs={12} justifyContent='center' textAlign='center'>
         <img
           src={svgLocation}
-          alt="Logo"
+          alt='Logo'
           style={{ width: "200px", height: "auto" }}
         />
       </Grid>
 
       <Grid
         container
-        justifyContent="center"
-        alignItems="center"
-        textAlign="center"
+        justifyContent='center'
+        alignItems='center'
+        textAlign='center'
         columnSpacing={1}
         rowSpacing={2}
       >
         <Grid item xs={12} md={6} sx={{ flexGrow: 1 }}>
           <TextField
-            label="Slug"
+            label='Slug'
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
-            variant="outlined"
+            variant='outlined'
             fullWidth
             InputProps={{
               endAdornment: (
-                <Button onClick={generateRandomSlug} style={{ minWidth: 0 }}>
+                <Button
+                  onClick={() => setSlug(generateRandomSlug)}
+                  style={{ minWidth: 0 }}
+                >
                   <RiRestartLine size={20} />
                 </Button>
               ),
@@ -112,57 +115,57 @@ function AddLinkForm({ addLink, svgLocation }) {
         </Grid>
         <Grid item xs={12} md={6} sx={{ flexGrow: 2 }}>
           <TextField
-            label="Web URL"
+            label='Web URL'
             value={web}
             onChange={(e) => setWeb(e.target.value)}
-            variant="outlined"
+            variant='outlined'
             fullWidth
           />
         </Grid>
         <Grid item xs={12} md={6} sx={{ flexGrow: 1 }}>
           <TextField
-            label="Android Primary URL"
+            label='Android Primary URL'
             value={android.primary}
             onChange={(e) =>
               setAndroid({ ...android, primary: e.target.value })
             }
-            variant="outlined"
+            variant='outlined'
             fullWidth
           />
         </Grid>
         <Grid item xs={12} md={6} sx={{ flexGrow: 2 }}>
           <TextField
-            label="Android Fallback URL"
+            label='Android Fallback URL'
             value={android.fallback}
             onChange={(e) =>
               setAndroid({ ...android, fallback: e.target.value })
             }
-            variant="outlined"
+            variant='outlined'
             fullWidth
           />
         </Grid>
         <Grid item xs={12} md={6} sx={{ flexGrow: 1 }}>
           <TextField
-            label="iOS Primary URL"
+            label='iOS Primary URL'
             value={ios.primary}
             onChange={(e) => setIos({ ...ios, primary: e.target.value })}
-            variant="outlined"
+            variant='outlined'
             fullWidth
           />
         </Grid>
         <Grid item xs={12} md={6} sx={{ flexGrow: 2 }}>
           <TextField
-            label="iOS Fallback URL"
+            label='iOS Fallback URL'
             value={ios.fallback}
             onChange={(e) => setIos({ ...ios, fallback: e.target.value })}
-            variant="outlined"
+            variant='outlined'
             fullWidth
           />
         </Grid>
       </Grid>
 
-      <Box mt={0} textAlign="start">
-        <Button type="submit" variant="contained" color="primary" size="large">
+      <Box mt={0} textAlign='start'>
+        <Button type='submit' variant='contained' color='primary' size='large'>
           Add
         </Button>
       </Box>
