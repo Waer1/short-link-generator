@@ -7,7 +7,6 @@ const cors = require("cors"); // Import the cors package
 const basicAuthMiddleware = require("./middleware/basicAuthMiddleware");
 const AppError = require("./utils/appError");
 const shortlinkRoutes = require("./routes/shortlinkRoutes");
-const { getUserType } = require("./utils/userAgent");
 
 const app = express();
 
