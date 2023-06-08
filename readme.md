@@ -9,7 +9,7 @@ The MERN stack application utilizes the following technologies and tools:
 
 - MongoDB
 - Express
-- React
+- React (with Material UI)
 - Node.js
 - Docker
 - Ansible

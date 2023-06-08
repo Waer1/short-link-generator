@@ -7,7 +7,7 @@ const cors = require("cors"); // Import the cors package
 const basicAuthMiddleware = require("./middleware/basicAuthMiddleware");
 const AppError = require("./utils/appError");
 const shortlinkRoutes = require("./routes/shortlinkRoutes");
-const getUserType = require("./utils/userAgentUtils");
+const { getUserType } = require("./utils/userAgent");
 
 const app = express();
 
@@ -35,11 +35,6 @@ app.use(mongoSanitize());
 
 // Data sanitization against XSS (Cross-Site Scripting) attacks
 app.use(xss()); // Prevent execution of dangerous HTML and JavaScript code in the request
-
-const userAgent = req.headers["user-agent"];
-const userType = getUserType(userAgent);
-
-console.log(userType);
 
 // Routes
 app.use("/api/v1/shortlinks", shortlinkRoutes);
