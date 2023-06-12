@@ -4,7 +4,8 @@ const {
   createShortlink,
   updateShortlink,
   replaceShortlink,
-  deleteShortlink
+  deleteShortlink,
+  getShortlinksByUserType,
 } = require("../controllers/shortlinkController");
 
 const router = express.Router();
@@ -24,8 +25,9 @@ router
  */
 router
   .route("/:slug")
+  .get(getShortlinksByUserType) // get single shortlinks
   .patch(updateShortlink) // PATCH request to update a shortlink
   .put(replaceShortlink) // PUT request to replace a shortlink
-  .delete(deleteShortlink)
+  .delete(deleteShortlink);
 
 module.exports = router;

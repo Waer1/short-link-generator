@@ -2,6 +2,7 @@ const AppError = require("../utils/appError");
 const Shortlink = require("../models/shortlinkModel");
 const catchAsync = require("../utils/catchAsync");
 const APIFeatures = require("../utils/apiFeatures");
+const { getUserType, UserType } = require("../utils/userAgent");
 
 /**
  * Get all shortlinks
@@ -62,6 +63,59 @@ exports.createShortlink = catchAsync(async (req, res, next) => {
     status: "successful",
     slug: newShortlink.slug,
     message: "Created successfully",
+  });
+});
+
+/**
+ * Get shortlink by user type
+ * Retrieves a single shortlink based on the user type and provided slug.
+ * The returned shortlink contains only the fields relevant to the user type.
+ *
+ * @route GET /api/shortlinks/:slug
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {Object} - JSON response with the shortlink data.
+ */
+exports.getShortlinkByUserType = catchAsync(async (req, res, next) => {
+  const { slug } = req.params;
+  const userAgent = req.headers["user-agent"];
+  const userType = getUserType(userAgent);
+
+  let query;
+
+  // Modify the query based on the user type
+  switch (userType) {
+    case UserType.DESKTOP:
+      // For desktop users, retrieve only the web field and limit to one result
+      query = Shortlink.findOne({ slug }).select("web").limit(1);
+      break;
+    case UserType.ANDROID:
+      // For Android users, retrieve android.primary and android.fallback fields
+      query = Shortlink.findOne({ slug }).select(
+        "android.primary android.fallback"
+      );
+      break;
+    case UserType.IOS:
+      // For iOS users, retrieve ios.primary and ios.fallback fields
+      query = Shortlink.findOne({ slug }).select("ios.primary ios.fallback");
+      break;
+    default:
+      return res.status(400).json({ message: "Invalid user type" });
+  }
+
+  const shortlink = await query;
+
+  // Check if the shortlink exists
+  if (!shortlink) {
+    return res.status(404).json({ message: "Shortlink not found" });
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      shortlink,
+    },
   });
 });
 
