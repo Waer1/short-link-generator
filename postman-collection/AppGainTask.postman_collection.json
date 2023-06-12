@@ -45,6 +45,41 @@
 					"response": []
 				},
 				{
+					"name": "getShortLink",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "waer",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "waer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}:5000/api/v1/shortlinks",
+							"host": [
+								"{{localhost}}"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"shortlinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "addShortLink",
 					"request": {
 						"auth": {

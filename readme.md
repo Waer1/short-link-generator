@@ -16,11 +16,14 @@ The MERN stack application utilizes the following technologies and tools:
 - NGINX
 - AWS (Amazon Web Services)
 
+
+# Run it locally
+
 ## Prerequisites
 
 Before setting up the MERN stack application, ensure you have the following prerequisites installed:
 
-- Node.js
+- Node.js v16.17.1
 - MongoDB
 - Docker
 
@@ -44,19 +47,14 @@ Before setting up the MERN stack application, ensure you have the following prer
 
    ```bash
    cd frontend
-   npm install
+   npm install --legacy-peer-deps
    ```
 
 ## Configuration
 
 1. Backend Configuration:
 
-   - Create a `.env` file in the `backend` directory.
-   - Add the required environment variables to the `.env` file.
-
-2. Frontend Configuration:
-
-   - Create a `.env` file in the `frontend` directory.
+   - Create a `config.env` file in the `backend` directory.
    - Add the required environment variables to the `.env` file.
 
 ## Running the Application
@@ -78,10 +76,54 @@ Before setting up the MERN stack application, ensure you have the following prer
 3. Access the application in your browser at [http://localhost:3000](http://localhost:3000).
 
 
+# Run it using Docker
+
+## Prerequisites
+
+Before running the application in Docker, make sure you have Docker installed on your machine. If Docker is not installed, you can follow the official Docker documentation for instructions on how to install it: [Docker Installation Guide](https://docs.docker.com/get-docker/).
+
+1- Config Environment Variables
+- Create a `.env` file in the `devops\Docker-Compose\envfiles\backend.env` directory.
+- Add the following environment variables to the `.env` file:
+
+     ```
+     NODE_ENV=production
+     PORT=5000
+     DATABASE_USER=<--DATABASE_USER-->
+     DATABASE_PASSWORD=<--DATABASE_PASSWORD-->
+     DATABASE_HOST=<--DATABASE_HOST-->
+     DATABASE_URL=mongodb+srv://<USER>:<PASSWORD>@<HOST>/dpName?retryWrites=true
+     BASIC_AUTH_USERNAME=waer
+     BASIC_AUTH_PASSWORD=waer
+     ```
+
+   Replace `<USER>`, `<PASSWORD>`, and `<HOST>` in the `DATABASE_URL` variable with your MongoDB Atlas database credentials.
+
+## Running the Application in Docker
+
+To run the MERN stack application using Docker, follow these steps:
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Waer1/short-link-generator
+   cd short-link-generator
+   ```
+
+2. Build the Docker images and start the containers:
+
+   ```bash
+   cd .\devops\Docker-Compose\
+   docker-compose up -d
+   ```
+
+3. Access the application in your browser at [http://localhost](http://localhost).
+
+
 
 ## Deployment
 
-The MERN stack application is deployed to AWS (Amazon Web Services). To access the deployed application, visit [appgain.read-it.live](http://appgain.read-it.live) in your web browser.
+The MERN stack application is deployed to AWS (Amazon Web Services). To access the deployed application, visit [appgain.read-it.live](http://appgain.read-it.live) or [appgain.read-it.live](http://34.230.190.217/) in your web browser.
 
 To deploy the MERN stack application using Docker, follow these steps:
 
@@ -144,5 +186,6 @@ Below are several screenshots showcasing different features of the MERN stack ap
 ## Troubleshooting
 
 - If you encounter any issues during installation or running the application, refer to the application's documentation or contact me throught elwaeryousef@gmail.com
+
 
 

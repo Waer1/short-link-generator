@@ -1,11 +1,11 @@
+// Define the enum for user types
 const UserType = {
   DESKTOP: "desktop",
   ANDROID: "android",
   IOS: "ios",
 };
 
-module.exports = UserType;
-
+// Define the function to get the user type based on the userAgent
 function getUserType(userAgent) {
   if (userAgent.includes("Android")) {
     return UserType.ANDROID;
@@ -16,4 +16,8 @@ function getUserType(userAgent) {
   }
 }
 
-module.exports = getUserType;
+// Export the function and the enum
+module.exports = {
+  UserType,
+  getUserType,
+};
